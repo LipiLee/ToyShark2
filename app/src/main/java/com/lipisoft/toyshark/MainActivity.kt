@@ -25,12 +25,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleResult(resultCode: Int) {
         when (resultCode) {
-            Activity.RESULT_OK -> startService(Intent(this, ToysharkService::class.java))
+            Activity.RESULT_OK -> startService(Intent(this, ToySharkService::class.java))
             // TODO else -> retry
         }
     }
 
     private fun prepareVpnService() {
-        startActivityForResult(VpnService.prepare(this), START_VPN)
+        val intent = VpnService.prepare(this)
+
+        if (intent != null)
+            startActivityForResult(intent, START_VPN)
+        else
+            onActivityResult(START_VPN, Activity.RESULT_OK, null)
     }
 }
